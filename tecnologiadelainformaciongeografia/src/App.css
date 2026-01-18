@@ -1,38 +1,114 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.App-header h1 {
+  margin: 0;
+  font-weight: 400;
+}
+
+.portfolio-container {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-grow: 1;
+}
+
+.practices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.practice-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.practice-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  background-color: #007bff;
+  color: white;
+  padding: 15px;
+  text-align: left;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.card-body {
+  padding: 20px;
+  text-align: left;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-info {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.card-format {
+  font-size: 0.8rem;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+.placeholder-content {
+  background-color: #e9ecef;
+  border: 2px dashed #ced4da;
+  border-radius: 4px;
+  height: 200px; /* Default height */
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  color: #6c757d;
+  font-weight: 500;
+  margin-top: auto;
+  position: relative;
 }
 
-.App-link {
-  color: #61dafb;
+.placeholder-label {
+  padding: 10px;
+  text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Specific styling for map placeholders to look different */
+.placeholder-content.map {
+  background-color: #dbeafe;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+/* Footer */
+footer {
+  background-color: #282c34;
+  color: #adb5bd;
+  padding: 10px;
+  font-size: 0.8rem;
 }
