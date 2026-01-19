@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import './firebase'; // Initialize Firebase
 import ShapefileMap from './components/ShapefileMap';
-import GpxAnalysis from './components/GpxAnalysis';
+
 import NotebookViewer from './components/NotebookViewer';
 import Practice10Map from './components/Practice10Map';
 import GeotiffMap from './components/GeotiffMap';
@@ -15,83 +15,84 @@ function App() {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  // Data derived from the provided instructions (Table in 2.png)
-  const practices = [
-    { 
-      id: 1, 
-      title: "Práctica 1", 
-      info: "Captura de pantalla", 
-      format: "Png, Jpg", 
-      type: "image",
-      content: "/practicas_files/capturadepantalla.jpeg"
-    },
-    { 
-      id: 3, 
-      title: "Práctica 3", 
-      info: "Mapa de temperaturas y precipitaciones", 
-      format: "Pdf", 
-      type: "pdf",
-      content: "/practicas_files/Precipitaciones Mapa.pdf"
-    },
-    { 
-      id: 4, 
-      title: "Práctica 4", 
-      info: "Capa Zonas Validas.shp", 
-      format: "WebMap", 
-      type: "map",
-      content: "/practicas_files/ZONAS_VALIDAS.shp",
-      isShapefile: true
-    },
-    { 
-      id: 5, 
-      title: "Práctica 5", 
-      info: "Severidad.tif", 
-      format: "WebMap", 
-      type: "map",
-      content: "/practicas_files/SEVERIDAD.tif",
-      isGeotiff: true
-    },
-    { 
-      id: 7, 
-      title: "Práctica 7", 
-      info: "Tabla de resultados y gráfico de rendimiento", 
-      format: "Jpg, Html (GPX Analysis)", 
-      type: "map",
-      content: "/practicas_files/Ruta_1.gpx",
-      isGpxAnalysis: true
-    },
-    { 
-      id: 8, 
-      title: "Práctica 8", 
-      info: "Contenedores.html y Accidentes Madríd.html", 
-      format: "WebMap", 
-      type: "map",
-      // Array of contents for this practice
-      content: [
-        { title: "Contenedores", url: "/practicas_files/Contenedores.html" },
-        { title: "Accidentes Madrid", url: "/practicas_files/Accidentes.html" }
-      ]
-    },
-    { 
-      id: 9, 
-      title: "Práctica 9", 
-      info: "Imágenes resultantes obtenidas del cálculo de los índices SAVI y EVI y que fueron exportadas a Drive.", 
-      format: "WebMap", 
-      type: "map",
-      content: "/practicas_files/Medio_Ambiente.html",
-      isIframe: true
-    },
-    { 
-      id: 10, 
-      title: "Práctica 10", 
-      info: "Imagenes resultante del índice calculado y exportada a Drive. Voluntario: Video GIF", 
-      format: "WebMap", 
-      type: "map",
-      content: null, // Content handled by component internally or not needed
-      isPractice10Map: true
-    },
-  ];
-
+    // Data derived from the provided instructions (Table in 2.png)
+    const practices = [
+      {
+        id: 1,
+        title: "Práctica 1",
+        info: "Captura de pantalla",
+        format: "Png, Jpg",
+        type: "image",
+        content: process.env.PUBLIC_URL + "/practicas_files/capturadepantalla.jpeg"
+      },
+      {
+        id: 3,
+        title: "Práctica 3",
+        info: "Mapa de temperaturas y precipitaciones",
+        format: "Pdf",
+        type: "pdf",
+        content: process.env.PUBLIC_URL + "/practicas_files/Precipitaciones Mapa.pdf"
+      },
+      {
+        id: 4,
+        title: "Práctica 4",
+        info: "Capa Zonas Validas.shp",
+        format: "WebMap",
+        type: "map",
+        content: process.env.PUBLIC_URL + "/practicas_files/ZONAS_VALIDAS.shp",
+        isShapefile: true
+      },
+      {
+        id: 5,
+        title: "Práctica 5",
+        info: "Severidad.tif",
+        format: "WebMap",
+        type: "map",
+        content: process.env.PUBLIC_URL + "/practicas_files/SEVERIDAD.tif",
+        isGeotiff: true
+      },
+      {
+        id: 7,
+        title: "Práctica 7",
+        info: "Tabla de resultados y gráfico de rendimiento",
+        format: "Jpg, Html",
+        type: "map",
+        content: [
+          { title: "Tabla de Resultados", url: process.env.PUBLIC_URL + "/practicas_files/pract7.html" },
+          { title: "Gráfico de Rendimiento", url: process.env.PUBLIC_URL + "/practicas_files/pract7_1.jpeg", type: "image" }
+        ]
+      },
+      {
+        id: 8,
+        title: "Práctica 8",
+        info: "Contenedores.html y Accidentes Madríd.html",
+        format: "WebMap",
+        type: "map",
+        // Array of contents for this practice
+        content: [
+          { title: "Contenedores", url: process.env.PUBLIC_URL + "/practicas_files/Contenedores.html" },
+          { title: "Accidentes Madrid", url: process.env.PUBLIC_URL + "/practicas_files/Accidentes.html" }
+        ]
+      },
+      {
+        id: 9,
+        title: "Práctica 9",
+        info: "Imágenes resultantes obtenidas del cálculo de los índices SAVI y EVI y que fueron exportadas a Drive.",
+        format: "WebMap",
+        type: "map",
+        content: process.env.PUBLIC_URL + "/practicas_files/Medio_Ambiente.html",
+        isIframe: true
+      },
+      {
+        id: 10,
+        title: "Práctica 10",
+        info: "Imagenes resultante del índice calculado y exportada a Drive. Voluntario: Video GIF",
+        format: "WebMap",
+        type: "map",
+        content: null, // Content handled by component internally or not needed
+        isPractice10Map: true
+      },
+    ];
   const renderContent = (practice) => {
     if (practice.isPractice10Map) {
         return (
@@ -113,7 +114,7 @@ function App() {
       );
     }
 
-    if (practice.id === 8) {
+    if (practice.id === 8 || practice.id === 7) {
         return <Practice8Viewer items={practice.content} />;
     }
 
@@ -133,13 +134,7 @@ function App() {
         );
     }
 
-    if (practice.isGpxAnalysis) {
-        return (
-            <div className="gpx-container-wrapper">
-                <GpxAnalysis fileUrl={practice.content} />
-            </div>
-        );
-    }
+
 
     if (practice.isDownload) {
          return (

@@ -24,15 +24,25 @@ const Practice8Viewer = ({ items }) => {
                         {loadingStatus[index] && (
                             <div className="loading-overlay">
                                 <div className="spinner"></div>
-                                <p>Cargando mapa...</p>
+                                <p>Cargando contenido...</p>
                             </div>
                         )}
-                        <iframe 
-                            src={item.url} 
-                            title={item.title} 
-                            className="practice8-iframe"
-                            onLoad={() => handleLoad(index)}
-                        />
+                        {item.type === 'image' ? (
+                            <img 
+                                src={item.url} 
+                                alt={item.title} 
+                                className="practice8-image"
+                                onLoad={() => handleLoad(index)}
+                                style={{ width: '100%', height: 'auto', display: loadingStatus[index] ? 'none' : 'block' }}
+                            />
+                        ) : (
+                            <iframe 
+                                src={item.url} 
+                                title={item.title} 
+                                className="practice8-iframe"
+                                onLoad={() => handleLoad(index)}
+                            />
+                        )}
                     </div>
                 </div>
             ))}
