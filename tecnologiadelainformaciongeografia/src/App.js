@@ -5,7 +5,7 @@ import ShapefileMap from './components/ShapefileMap';
 
 import NotebookViewer from './components/NotebookViewer';
 import Practice10Map from './components/Practice10Map';
-import GeotiffMap from './components/GeotiffMap';
+
 import Practice8Viewer from './components/Practice8Viewer';
 
 function App() {
@@ -45,11 +45,10 @@ function App() {
       {
         id: 5,
         title: "Práctica 5",
-        info: "Severidad.tif",
-        format: "WebMap",
-        type: "map",
-        content: process.env.PUBLIC_URL + "/practicas_files/SEVERIDAD.tif",
-        isGeotiff: true
+        info: "Severidad",
+        format: "Jpg",
+        type: "image",
+        content: process.env.PUBLIC_URL + "/practicas_files/pract5.jpeg"
       },
       {
         id: 7,
@@ -126,13 +125,7 @@ function App() {
         );
     }
 
-    if (practice.isGeotiff) {
-        return (
-            <div className="map-container-wrapper">
-                <GeotiffMap fileUrl={practice.content} />
-            </div>
-        );
-    }
+
 
 
 
