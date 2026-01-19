@@ -46,7 +46,7 @@ function App() {
         id: 5,
         title: "Práctica 5",
         info: "Severidad",
-        format: "Jpg",
+        format: "Tif",
         type: "image",
         content: process.env.PUBLIC_URL + "/practicas_files/pract5.jpeg"
       },

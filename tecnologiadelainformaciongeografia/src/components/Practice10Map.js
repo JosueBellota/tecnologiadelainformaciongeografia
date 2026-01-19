@@ -1,62 +1,159 @@
-import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, Rectangle, Popup, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-
-// Fix Leaflet icons
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-});
-
-const MapResizer = () => {
-  const map = useMap();
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      map.invalidateSize();
-    }, 600);
-    return () => clearTimeout(timer);
-  }, [map]);
-  return null;
-};
+import React, { useState, useRef } from 'react';
 
 const Practice10Map = () => {
-  // Coordinates from Notebook: 
-  // Top-Left: [39.1679, -3.766481]
-  // Bottom-Right: [39.107981, -3.63584]
-  const bounds = [
-    [39.1679, -3.766481],
-    [39.107981, -3.63584]
-  ];
-  
-  const center = [
-    (bounds[0][0] + bounds[1][0]) / 2,
-    (bounds[0][1] + bounds[1][1]) / 2
-  ];
+  const [sliderValue, setSliderValue] = useState(50);
+  const map3Ref = useRef(null);
+
+  const mapa1 = process.env.PUBLIC_URL + "/practicas_files/pract10_mapa1.jpeg";
+  const mapa2 = process.env.PUBLIC_URL + "/practicas_files/pract10_mapa2.jpeg";
+  const mapa3 = process.env.PUBLIC_URL + "/practicas_files/pract10_mapa3.jpeg";
+
+  const handleSliderChange = (e) => {
+    setSliderValue(e.target.value);
+  };
 
   return (
-    <div className="practice-10-container">
-        <div className="map-wrapper" style={{ height: '400px', width: '100%', border: '1px solid #ccc', borderRadius: '4px' }}>
-            <MapContainer center={center} zoom={12} style={{ height: '100%', width: '100%' }}>
-                <MapResizer />
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; OpenStreetMap contributors'
-                />
-                <Rectangle bounds={bounds} pathOptions={{ color: 'red', weight: 2, fillOpacity: 0.1 }}>
-                    <Popup>
-                        Zona de Estudio NDWI<br />
-                        [39.1679, -3.766481] a [39.107981, -3.63584]
-                    </Popup>
-                </Rectangle>
-            </MapContainer>
+    <div className="practice-10-container" style={{ 
+      padding: '20px', 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      gap: '20px',
+      maxHeight: '80vh', 
+      overflowY: 'scroll', // Force scrollbar to be visible
+      width: '100%'
+    }}>
+      
+      <div className="comparison-container" style={{ 
+          position: 'relative', 
+          width: '100%', 
+          maxWidth: '800px', 
+          aspectRatio: '16/9', 
+          overflow: 'hidden', 
+          border: '2px solid #ddd', 
+          borderRadius: '8px',
+          flexShrink: 0 
+      }}>
+        
+        {/* Background Image (Mapa 2 - Right side revealed when slider moves left) */}
+        <img 
+          src={mapa2} 
+          alt="Mapa 2" 
+          style={{ 
+            position: 'absolute', 
+            top: 0, 
+            left: 0, 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover' 
+          }} 
+        />
+
+        {/* Foreground Image (Mapa 1 - Left side, clipped by slider) */}
+        <img 
+          src={mapa1} 
+          alt="Mapa 1" 
+          style={{ 
+            position: 'absolute', 
+            top: 0, 
+            left: 0, 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover',
+            clipPath: `inset(0 ${100 - sliderValue}% 0 0)` 
+          }} 
+        />
+
+        {/* Slider Input */}
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={sliderValue}
+          onChange={handleSliderChange}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: 0,
+            width: '100%',
+            transform: 'translateY(-50%)',
+            appearance: 'none',
+            background: 'transparent',
+            pointerEvents: 'none', 
+            zIndex: 10
+          }}
+          className="slider-input"
+        />
+        
+        {/* Custom Slider Line/Handle Visuals */}
+        <div 
+            style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: `${sliderValue}%`,
+                width: '4px',
+                backgroundColor: 'white',
+                transform: 'translateX(-50%)',
+                pointerEvents: 'none',
+                boxShadow: '0 0 5px rgba(0,0,0,0.5)'
+            }}
+        >
+            <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '30px',
+                height: '30px',
+                backgroundColor: 'white',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 0 5px rgba(0,0,0,0.5)',
+                color: '#333',
+                fontSize: '12px'
+            }}>
+                ↔
+            </div>
         </div>
-        <div className="info-box" style={{ marginTop: '10px', padding: '10px', background: '#f8f9fa', borderRadius: '4px', fontSize: '0.9rem' }}>
-            <p><strong>Nota:</strong> Este mapa muestra la localización de la zona de estudio definida en el Notebook.</p>
-            <p>La capa de procesamiento satelital (NDWI) generada con Google Earth Engine requiere credenciales activas o la exportación de la imagen resultante.</p>
-        </div>
+
+      </div>
+
+      {/* Mapa 3 Below */}
+      <div 
+        ref={map3Ref} 
+        className="mapa3-container" 
+        style={{ width: '100%', maxWidth: '800px', paddingBottom: '40px' }}
+      >
+        <img 
+          src={mapa3} 
+          alt="Mapa 3" 
+          style={{ width: '100%', height: 'auto', borderRadius: '8px', border: '1px solid #ddd' }} 
+        />
+      </div>
+
+      <style>{`
+        .slider-input::-webkit-slider-thumb {
+          pointer-events: auto;
+          appearance: none;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background: transparent;
+          cursor: pointer;
+        }
+        .slider-input::-moz-range-thumb {
+          pointer-events: auto;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background: transparent;
+          cursor: pointer;
+          border: none;
+        }
+      `}</style>
     </div>
   );
 };
