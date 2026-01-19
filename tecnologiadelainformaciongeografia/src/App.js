@@ -175,9 +175,14 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Portafolio WebMapping</h1>
-        <p>Tecnologías de la Información Geográfica</p>
+      <header className="App-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 40px' }}>
+        <div style={{ textAlign: 'left' }}>
+          <h1>Portafolio WebMapping</h1>
+          <p style={{ margin: 0, opacity: 0.8 }}>Tecnologías de la Información Geográfica</p>
+        </div>
+        <div style={{ textAlign: 'right', fontSize: '0.9rem', opacity: 0.9 }}>
+          <p style={{ margin: 0 }}>Hecho por: Josue Bellota, Luis Fuster</p>
+        </div>
       </header>
       
       <main className="portfolio-container">
